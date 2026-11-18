@@ -19,6 +19,9 @@ public class BlockActivity extends Activity {
     static final String EXTRA_REASON = "reason";
     static final String EXTRA_PACKAGE = "package";
 
+    /** Ist der Sperrbildschirm gerade zu sehen? (Der Dienst löst dann nicht erneut aus.) */
+    static volatile boolean showing;
+
     private CountDownTimer timer;
     private Button waitButton;
     private String waitLabel;
@@ -119,10 +122,17 @@ public class BlockActivity extends Activity {
         setContentView(scroll);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showing = true;
+    }
+
     /** Wer den Bildschirm verlässt, muss die Wartezeit neu beginnen. */
     @Override
     protected void onStop() {
         super.onStop();
+        showing = false;
         cancelTimer();
         if (waitButton != null) {
             waitButton.setText(waitLabel);

@@ -113,6 +113,34 @@ public class MainActivity extends Activity {
         col.addView(reset, Ui.fill(this, 10));
         lockable.add(reset);
 
+        // ---- Fehlersuche ----
+        section("Fehlersuche");
+        col.addView(Ui.text(this, "Erkennt Fokus Shorts in der YouTube-App nicht richtig? Starte die Aufzeichnung, "
+                + "öffne YouTube und zeig dort 60 Sekunden lang Startseite, Shorts-Regal, Shorts-Tab und ein Short. "
+                + "Die Aufzeichnung enthält den Aufbau der Bildschirme samt sichtbarer Texte und bleibt auf dem Handy, "
+                + "bis du sie selbst teilst.", 13, Ui.CREAM_DIM));
+        Button diagStart = Ui.button(this, "YouTube 60 Sekunden aufzeichnen", false);
+        diagStart.setOnClickListener(v -> {
+            Diagnose.start(this, 60_000);
+            Toast.makeText(this, "Aufzeichnung läuft. Öffne jetzt YouTube.", Toast.LENGTH_LONG).show();
+        });
+        col.addView(diagStart, Ui.fill(this, 10));
+        Button diagShare = Ui.button(this, "Aufzeichnung teilen", false);
+        diagShare.setOnClickListener(v -> {
+            String text = Diagnose.read(this);
+            if (text.isEmpty()) {
+                Toast.makeText(this, "Noch keine Aufzeichnung vorhanden.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (text.length() > 150_000) text = text.substring(0, 150_000);
+            Intent send = new Intent(Intent.ACTION_SEND);
+            send.setType("text/plain");
+            send.putExtra(Intent.EXTRA_SUBJECT, "Fokus: YouTube-Aufbau");
+            send.putExtra(Intent.EXTRA_TEXT, text);
+            startActivity(Intent.createChooser(send, "Aufzeichnung teilen"));
+        });
+        col.addView(diagShare, Ui.fill(this, 10));
+
         ScrollView scroll = new ScrollView(this);
         scroll.setBackgroundColor(Ui.BG);
         scroll.addView(col);

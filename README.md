@@ -3,7 +3,9 @@
 Die Handy-Version von „Fokus für YouTube": sperrt Apps, Shorts und Suchbegriffe
 auf dem ganzen Gerät und zeigt stattdessen den **Moment der Achtsamkeit**.
 
-> **Stand:** Version 0.1.0. Der Code ist gegen die Android-API 34 kompiliert und die
+> **Stand:** Version 0.2.0 (18. November 2026): Shorts-Sperre lässt sich nicht mehr durch schnelles Wiederholen umgehen, kein Bild-im-Bild-Fenster mehr, Shorts-Tab und Shorts-Regale werden abgedeckt, Fehlersuche im Einstellungsbildschirm.
+>
+> Version 0.1.0: Der Code ist gegen die Android-API 34 kompiliert und die
 > Logik (Begriffe, Adressen) ist getestet. Auf einem echten Gerät ist die App noch
 > **nicht gelaufen**. Siehe „Was noch geprüft werden muss".
 
@@ -25,9 +27,12 @@ Unterstützte Browser: Chrome, Samsung Internet, Firefox, Brave, Edge, Vivaldi, 
 
 **Weg A: GitHub (kein Android Studio nötig)**
 
-1. Diesen Ordner als eigenes Repository zu GitHub pushen.
-2. Unter *Actions* läuft „APK bauen" automatisch.
-3. Das Ergebnis `fokus-debug-apk` herunterladen und entpacken: `app-debug.apk`.
+1. Die Datei `github-workflow-build.yml` nach `.github/workflows/build.yml` verschieben:
+   `mkdir -p .github/workflows && git mv github-workflow-build.yml .github/workflows/build.yml`
+   (falls noch kein Repository: vorher `git init`, dann `mv` statt `git mv`)
+2. Diesen Ordner als eigenes Repository zu GitHub pushen.
+3. Unter *Actions* läuft „APK bauen" automatisch.
+4. Das Ergebnis `fokus-debug-apk` herunterladen und entpacken: `app-debug.apk`.
 
 **Weg B: Android Studio**
 
