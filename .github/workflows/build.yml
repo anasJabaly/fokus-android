@@ -29,7 +29,19 @@ jobs:
             tests/LogicTest.java
           java -cp build/logic LogicTest
 
+      - name: Signaturschlüssel vorhanden?
+        env:
+          FOKUS_KEYSTORE_B64: ${{ secrets.FOKUS_KEYSTORE_B64 }}
+        run: |
+          if [ -z "$FOKUS_KEYSTORE_B64" ]; then
+            echo "::error::Secret FOKUS_KEYSTORE_B64 fehlt. Ohne festen Schlüssel lässt sich die APK nicht als Update installieren."
+            exit 1
+          fi
+
       - name: Debug-APK bauen
+        env:
+          FOKUS_KEYSTORE_B64: ${{ secrets.FOKUS_KEYSTORE_B64 }}
+          FOKUS_KEYSTORE_PASSWORD: ${{ secrets.FOKUS_KEYSTORE_PASSWORD }}
         run: gradle assembleDebug
 
       - uses: actions/upload-artifact@v4

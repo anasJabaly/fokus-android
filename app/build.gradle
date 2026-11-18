@@ -19,9 +19,33 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // Fester Signaturschlüssel: Nur dann installiert Android eine neue APK als Update über die alte.
+    // Der Schlüssel liegt NICHT im Repository, sondern als GitHub-Secret (FOKUS_KEYSTORE_B64,
+    // FOKUS_KEYSTORE_PASSWORD). Lokal ohne Secrets wird mit dem normalen Debug-Schlüssel gebaut.
+    def keystoreB64 = System.getenv('FOKUS_KEYSTORE_B64')
+    def keystorePw = System.getenv('FOKUS_KEYSTORE_PASSWORD')
+    def useFokusKey = keystoreB64 && keystorePw
+    if (useFokusKey) {
+        def ks = new File(rootProject.buildDir, 'fokus.jks')
+        ks.parentFile.mkdirs()
+        ks.bytes = keystoreB64.trim().decodeBase64()
+        signingConfigs {
+            fokus {
+                storeFile ks
+                storePassword keystorePw
+                keyAlias 'fokus'
+                keyPassword keystorePw
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            if (useFokusKey) signingConfig signingConfigs.fokus
+        }
         release {
             minifyEnabled false
+            if (useFokusKey) signingConfig signingConfigs.fokus
         }
     }
 
