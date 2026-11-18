@@ -1,0 +1,4 @@
+// Bewusst ohne weitere Abhängigkeiten: reines Android-Framework, kein AndroidX, kein Kotlin.
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+}

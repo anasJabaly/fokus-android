@@ -1,0 +1,38 @@
+name: APK bauen
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Logik-Tests (reines Java)
+        run: |
+          mkdir -p build/logic
+          javac -d build/logic \
+            app/src/main/java/de/anasjabaly/fokus/Matcher.java \
+            app/src/main/java/de/anasjabaly/fokus/UrlCheck.java \
+            tests/LogicTest.java
+          java -cp build/logic LogicTest
+
+      - name: Debug-APK bauen
+        run: gradle assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fokus-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk

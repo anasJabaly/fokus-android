@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fokus</string>
+    <string name="accessibility_description">Fokus erkennt, welche App im Vordergrund ist, und liest die Adresszeile deines Browsers, um gesperrte Apps, Shorts und Suchbegriffe zu blockieren. Es werden keine Daten gespeichert oder gesendet.</string>
+</resources>
