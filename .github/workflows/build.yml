@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Jeder Push auf main baut eine signierte APK und veröffentlicht sie als GitHub-Release.
+# Obtainium auf dem Handy erkennt das Release und installiert das Update.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,7 +49,20 @@ jobs:
           FOKUS_KEYSTORE_PASSWORD: ${{ secrets.FOKUS_KEYSTORE_PASSWORD }}
         run: gradle assembleDebug
 
+      - name: APK benennen
+        run: cp app/build/outputs/apk/debug/app-debug.apk fokus-0.2.${{ github.run_number }}.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: fokus-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: fokus-0.2.${{ github.run_number }}.apk
+
+      - name: Release veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTES: ${{ github.event.head_commit.message || 'Manuell gestarteter Build' }}
+        run: |
+          gh release create "v0.2.${{ github.run_number }}" "fokus-0.2.${{ github.run_number }}.apk" \
+            --title "Fokus 0.2.${{ github.run_number }}" \
+            --notes "$NOTES" \
+            --target "${{ github.sha }}"

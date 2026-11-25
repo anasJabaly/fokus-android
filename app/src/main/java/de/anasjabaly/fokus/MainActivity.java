@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
         TextView title = Ui.text(this, "Fokus", 26, Ui.CREAM);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         col.addView(title);
-        col.addView(Ui.text(this, "Deine Zeit gehört dir.", 14, Ui.CREAM_DIM));
+        col.addView(Ui.text(this, "Deine Zeit gehört dir. · Version " + BuildInfo.version(this), 14, Ui.CREAM_DIM));
 
         // ---- Status des Bedienungshilfe-Dienstes ----
         status = Ui.text(this, "", 15, Ui.GOLD);

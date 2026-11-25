@@ -10,8 +10,11 @@ android {
         applicationId 'de.anasjabaly.fokus'
         minSdk 26
         targetSdk 34
-        versionCode 2
-        versionName '0.2.0'
+        // Jeder Build auf GitHub bekommt eine höhere Nummer (Laufnummer + 100), damit Android und
+        // Obtainium ihn als Update erkennen. Lokal gilt die feste Nummer.
+        def run = System.getenv('GITHUB_RUN_NUMBER')
+        versionCode run ? 100 + run.toInteger() : 2
+        versionName run ? "0.2.${run}" : '0.2.0'
     }
 
     compileOptions {

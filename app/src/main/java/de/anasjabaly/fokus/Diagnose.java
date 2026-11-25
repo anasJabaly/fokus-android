@@ -48,7 +48,7 @@ final class Diagnose {
         StringBuilder sb = new StringBuilder();
         sb.append("=== ").append(new SimpleDateFormat("HH:mm:ss", Locale.ROOT).format(new Date()))
                 .append("  Bildschirm ").append(screen.width()).append('x').append(screen.height())
-                .append("  Fokus ").append(BuildInfo.VERSION).append(" ===\n");
+                .append("  Fokus ").append(BuildInfo.version(ctx)).append(" ===\n");
         int[] count = {0};
         dump(root, 0, sb, count);
         try (FileOutputStream out = new FileOutputStream(f, true)) {

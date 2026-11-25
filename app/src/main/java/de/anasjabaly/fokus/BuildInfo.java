@@ -1,8 +1,17 @@
 package de.anasjabaly.fokus;
 
-/** Version für die Fehlersuche (gleich halten mit versionName in app/build.gradle). */
+import android.content.Context;
+
+/** Installierte Version (kommt aus app/build.gradle, auf GitHub mit der Build-Nummer). */
 final class BuildInfo {
-    static final String VERSION = "0.2.0";
 
     private BuildInfo() { }
+
+    static String version(Context ctx) {
+        try {
+            return ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            return "?";
+        }
+    }
 }

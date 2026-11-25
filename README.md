@@ -23,6 +23,12 @@ auf dem ganzen Gerät und zeigt stattdessen den **Moment der Achtsamkeit**.
 
 Unterstützte Browser: Chrome, Samsung Internet, Firefox, Brave, Edge, Vivaldi, Opera, DuckDuckGo.
 
+## Automatische Updates (Obtainium)
+
+Jeder Push auf `main` baut eine signierte APK und veröffentlicht sie als GitHub-Release `v0.2.<Build-Nummer>`.
+Auf dem Handy holt [Obtainium](https://github.com/ImranR98/Obtainium) diese Releases und installiert sie.
+Einmal einrichten: In Obtainium **App hinzufügen** → `https://github.com/anasJabaly/fokus-android` → **Hinzufügen** → installieren.
+
 ## Bauen
 
 **Weg A: GitHub (kein Android Studio nötig)**
